@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+    {% csrf_token %}
+
+        <head>
+
+            <style>
+                    * {
+                        font-family: sans-serif margin 0;
+                        padding: 0;
+                        text-decoration: none;
+                        box-sizing: border-box;
+                    }
+
+                    body {
+                    min-height: 100vh;
+                    background: #222342;
+                    }
+
+                    h3 {
+                    text-align: center;
+                    margin-bottom: 45px;
+                    color: white;
+                    font-size: 40px;
+                    font-family: verdana;
+                    padding: 25px 50px;
+                    background: #191a1f;
+                    }
+
+                    .calendarFormat
+                    {
+                        text-align: center;
+                    }
+
+                    #rcorners3 
+                    {
+                        border-radius: 25px;
+                        background-color: lightblue;
+                        background-position: left top;
+                        background-repeat: repeat;
+                        padding: 20px;
+                        width: 200px;
+                        height: 150px;
+                    }
+
+                    #whole
+                    {
+                        text-align: center;
+                        margin-bottom: 45px;
+                        color: white;
+                        font-family: verdana;
+                        padding: 25px 50px;
+                        background: #191a1f;
+                        border-radius: 25px;
+                        width: 400px;
+                        height:700px;
+                        padding: 75px 50px;
+                        position: absolute;
+                        left:30%;
+                        top:60%;
+                        transform:translate(-50%,-50%);
+                    }
+
+                    #ToDoBox
+                    {
+                        text-align: center;
+                        margin-bottom: 45px;
+                        color: white;
+                        font-family: verdana;
+                        padding: 25px 50px;
+                        background: #191a1f;
+                        border-radius: 25px;
+                        width: 350px;
+                        height:800;
+                        padding: 75px 50px;
+                        position: absolute;
+                        left:80%;
+                        top:50%;
+                        transform:translate(-50%,-50%);
+                    }
+
+            </style>
+
+
+
+            <title>Home Page</title>
+
+            {% if request.user.is_authenticated %}
+                <a id="logoutBtn" href="{% url 'logout' %}">Logout</a>
+            {% endif %}
+
+        </head>
+        <body>
+            <h3>Home Page</h3>
+
+            <div id="whole">
+            <a id="addCalendarBtn" href = "{% url 'addCalendar' %}">Add Calendar</a>
+
+            {% for calendar in calendars %}
+            <div class="calendarFormat">
+            <p id = "rcorners3"><a href = "{% url 'calendar' calendar.id %}">{{calendar.calendarName}}</a></p>
+            </div>
+            {% endfor %}
+            
+            </div>
+        
+        <div id = "ToDoBox">
+            
+            <h1 style = "text-align: center;">To-Do list</h1>
+            <!-- <a href = "{% url 'addTask' %}">Add task</a> -->
+            {% for todo in todos %}
+                <div>
+                    <h5>{{todo.id}} -- <a href="{%url 'todo' todo.id%}">{{todo.eventName}}</a> </h5>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+        </body>
+</html>

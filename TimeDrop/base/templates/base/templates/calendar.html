@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <style>
+
+            #body {
+            min-height: 150vh;
+            background: #222342;
+            }
+
+            #whole {
+            background: #191a1f;
+            text-align: center;
+            border: solid 3px #191a1f;
+            border-radius: 25px;
+
+            width: 800px;
+            height: 1000px;
+            padding: 75px 50px;
+            position: absolute;
+            transform: translate(-42%, -50%);
+            left:30%;
+            top:60%;
+            }
+
+            #ToDoBox
+            {
+            background: #191a1f;
+            text-align: center;
+            border: solid 3px #191a1f;
+            border-radius: 25px;
+
+            width: 300px;
+            height: 1000px;
+            padding: 60px 50px;
+            position: absolute;
+            transform: translate(-15%, -20%);
+            left:110%;
+            top:20%;
+            }
+
+            .previousPage{
+                float: left;
+            }
+
+            .btn {
+            outline: none;
+            color: black;
+            background-color: transparent;
+            box-shadow: 0 0 0 0;
+            }
+
+            .clearfix {
+            margin: 15px;
+            }
+
+
+
+        </style>
+
+    </head>
+    <body>
+
+    <div id="body">
+        {% extends 'base/templates/base.html' %}
+
+        {% block content %}
+
+        <div id="whole">
+            <div class="previousPage">
+                <a href="{% url 'home' %}">Previous Page</a>
+              </div>
+
+
+
+        {{ calendar }}
+        </div>
+
+        <div id = "ToDoBox">
+
+            {% csrf_token %}
+            
+            <h1 style = "text-align: center; color: white;">To-Do list</h1>
+            <a href = "{% url 'addTask' %}">Add task</a>
+            {% for todo in todos %}
+                <div>
+                    <h5>{{todo.id}} -- <a href="{%url 'todo' todo.id%}">{{todo.eventName}}</a> </h5>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% endblock %}
+    </div>
+
+
+    </body>
+
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Login</title>
+  <style>
+    * {
+      font-family: sans-serif margin 0;
+      padding: 0;
+      text-decoration: none;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #222342;
+    }
+
+    form {
+
+      width: 350px;
+      height: 800;
+      padding: 75px 50px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 45px;
+      color: white;
+      font-size: 40px;
+      font-family: verdana;
+      padding: 25px 50px;
+      background: #191a1f;
+    }
+
+    .loginBtn {
+      height: 45px;
+      width: 75%;
+      border: none;
+      outline: none;
+      background-size: 150%;
+      background-position: right;
+      font-size: 15px;
+    }
+
+    .signup {
+      color: white;
+      font-family: verdana;
+      margin-top: 45px;
+      padding: 10px 20px;
+      background-color: #191a1f;
+      border-radius: 25px;
+    }
+
+    h3 {
+      text-align: center;
+      font-family: verdana;
+      color: navy;
+      top: 0;
+      font-size: 50px;
+      background: cornflowerblue;
+      border: solid 3px navy;
+    }
+
+    .previousPage {
+      margin-top: 20px;
+    }
+
+    #whole {
+      background: #191a1f;
+      text-align: center;
+      border: solid 3px #191a1f;
+      border-radius: 25px;
+      width: 350px;
+    }
+
+    #rcorners3 {
+      border-radius: 25px;
+      background-color: lightblue;
+      background-position: left top;
+      background-repeat: repeat;
+      padding: 20px;
+      width: 200px;
+      height: 150px;
+    }
+
+    #Login {
+      background-color: #5467ff;
+      border-radius: 25px;
+      width: 200px;
+      padding: 5px 5px;
+      margin: 5%;
+      box-shadow: 0 0 5px 1px;
+    }
+
+    input[type=password],
+    input[type=text] {
+      border: solid 1px #262a35;
+      width: 250px;
+      height: 50px;
+      padding: 8px;
+      margin: 3%;
+      background-color: #262a35;
+      border-radius: 25px;
+      color: white;
+    }
+
+    .calendarFormat {
+      text-align: center;
+    }
+
+    .ToDoBox {
+      border: 1px solid black;
+    }
+
+    .ToDo {
+      display: grid;
+      grid-template-columns: 1fr 3fr 1fr;
+    }
+
+    button:hover {
+      border: none;
+      color: white;
+      background-color: white;
+      box-shadow: 0 0 0px 0px;
+    }
+
+    p {
+      display: none;
+      font-family: verdana;
+      background-color: green;
+      border: none;
+      color: white;
+      padding: 16px 32px;
+    }
+
+    #message
+    {
+      border-radius: 25px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <form method="POST" action="">
+
+    {% csrf_token %}
+
+    <div id='whole'>
+      <h1>Welcome!</h1>
+      <div id='credentials' class="textBox">
+        <input type="text" name="username" placeholder="Username" id="Username" onkeypress="active()" onchange="active()"
+          onclick="active()"><br>
+        <input type="password" name="password" placeholder="Password" id="Password" onkeypress="active()" onchange="active()"
+          onclick="active()">
+      </div>
+      <br>
+      <button onclick="validate()" class="loginBtn" id="Login">Login</button>
+
+      <span id='pop_up'>
+        <p id='message'></p>
+        {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </span>
+
+      <div class="signup" id='signup'>
+        Don't have an account?
+        </br>
+        <a href="{%url 'signup'%}">Sign up</a>
+      </div>
+    </div>
+    <script>
+      document.getElementById("Login").onclick =
+        function validate() {
+          const userName = document.getElementById("Username").value;
+          const password = document.getElementById("Password").value;
+
+          if ((userName == "") || (password == "")) {
+            alert("One or more fields is empty!");
+          }
+          else {
+            //window.open('HomePage.html', 'newwindow');
+          }
+        }
+
+      function active() {
+        var username = document.getElementById('Username').value;
+        var password = document.getElementById('Password').value;
+
+        var output_text = document.getElementById('message');
+        output_text.textContent = print_message(username, password);
+      }
+
+      function passwordCheck(password) {
+        var bool = false;
+        (password.length != 0 && password.length >= 8) ? (bool = true) : (bool = false);
+        return bool;
+      }
+
+      function print_message(u, p) {
+        let x = document.getElementById('message');
+        var text = '';
+
+        switch (true) {
+          case u.length != 0 && passwordCheck(p) == true:
+            text = 'Valid credentials';
+            x.style.backgroundColor = 'green';
+            break;
+          case u.length == 0 && passwordCheck(p) == true:
+            text = 'Invalid username';
+            x.style.backgroundColor = 'red';
+            break;
+          case u.length != 0 && passwordCheck(p) == false:
+            text = 'Password must be at least 8 characters';
+            x.style.backgroundColor = 'red';
+            break;
+          case u.length == 0 && passwordCheck(p) == false:
+            text = 'Invalid credentials';
+            x.style.backgroundColor = 'red';
+            break;
+        }
+
+        x.style.display = 'block';
+        return text;
+      }
+    </script>
+  </form>
+</body>
+
+</html>

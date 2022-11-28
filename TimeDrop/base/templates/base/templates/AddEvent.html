@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Add Event</title>
+
+    <style>
+
+        * {
+            font-family: sans-serif margin 0;
+            padding: 0;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #222342;
+         }
+
+        input[type=password],
+        input[type=text] {
+            border: solid 1px #262a35;
+            width: 250px;
+            height: 50px;
+            padding: 8px;
+            margin: 2%;
+            background-color: #262a35;
+            border-radius: 25px;
+            color: white;
+        }
+        
+        #whole {
+            background: #191a1f;
+            text-align: center;
+            border: solid 3px #191a1f;
+            border-radius: 25px;
+            width: 350px;
+        }
+
+        form {
+
+            width: 350px;
+            height: 800;
+            padding: 75px 50px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #submitButton {
+            height: 45px;
+            width: 75%;
+            border: none;
+            outline: none;
+            background-size: 150%;
+            background-position: right;
+            font-size: 15px;
+            background-color: #5467ff;
+            border-radius: 25px;
+            width: 200px;
+            padding: 5px 5px;
+            margin: 5%;
+            box-shadow: 0 0 5px 1px;
+        }
+
+        button:hover {
+            border: none;
+            color: white;
+            background-color: white;
+            box-shadow: 0 0 0px 0px;
+        }
+
+        #previousLink
+        {
+            font-family: verdana;
+            color: white;
+            font-size: 15px;
+        }
+
+        h1
+        {
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 25px;
+            font-family: verdana;
+            padding: 15px 40px;
+            background: #191a1f;
+        }
+        
+        #message {
+            display: none;
+            font-family: verdana;
+            background-color: green;
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 25px;
+         }
+
+    </style>
+
+</head>
+
+<div>
+  <form id='addEvent' method="POST" action="">
+
+    {% csrf_token %}
+
+<div id="whole">
+    <h1>Add Event</h1>
+    <div class="previousPage">
+      <a href="{% url 'calendar' 1 %}">Previous Page</a>
+    </div>
+
+
+    <!-- <h4>Name event:</h4>
+    <input type="text" name="eventName" id="name">
+    <br>
+    <h4>Due date:</h4>
+    <input type="date" name="dueDate" id="dueDate">
+    <br>
+    <h4>Time:</h4>
+    <input type="time" name="eventTime" id="time">
+    <br>
+    <h4>Description (optional):</h4>
+    <input type="text" name="eventDescription" id="description">
+    <br>-->
+
+
+    {% for field in form %}
+    <p>
+      {{ field }}
+        {% for error in field.errors %}
+            <p style="color: white; line-height: 0%; font-size: 10px; font-family: verdana; border: 7px solid red; border-radius: 25px; margin-left: 35px; margin-right: 35px; margin-bottom: 0px;">{{ error }}</p>
+        {% endfor %}
+    </p>
+    {% endfor %}
+
+    <br>
+    <button onclick="validate()" id="submitButton">Submit</button> 
+
+</div>
+    </form>
+
+    <script>
+      document.getElementById("submit").onclick =
+        function validate() {
+          const eventName = document.getElementById("name").value;
+          const date = document.getElementById("dueDate").value;
+          const time = document.getElementById("time").value;
+
+          if ((eventName == "") || (date == "") || (time == "")) {
+            alert("One or more fields is empty!");
+          }
+
+
+        }
+    </script>
+  </form>
+</body>
+
+</html>

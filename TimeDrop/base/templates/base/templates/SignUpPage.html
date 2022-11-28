@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<head>
+    <title>Sign up page</title>
+    <style>
+        * {
+            font-family: sans-serif margin 0;
+            padding: 0;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #222342;
+         }
+
+        input[type=password],
+        input[type=text] {
+            border: solid 1px #262a35;
+            width: 250px;
+            height: 50px;
+            padding: 8px;
+            margin: 2%;
+            background-color: #262a35;
+            border-radius: 25px;
+            color: white;
+        }
+        
+        #whole {
+            background: #191a1f;
+            text-align: center;
+            border: solid 3px #191a1f;
+            border-radius: 25px;
+            width: 350px;
+        }
+
+        form {
+
+            width: 350px;
+            height: 800;
+            padding: 75px 50px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #submitButton {
+            height: 45px;
+            width: 75%;
+            border: none;
+            outline: none;
+            background-size: 150%;
+            background-position: right;
+            font-size: 15px;
+            background-color: #5467ff;
+            border-radius: 25px;
+            width: 200px;
+            padding: 5px 5px;
+            margin: 5%;
+            box-shadow: 0 0 5px 1px;
+        }
+
+        button:hover {
+            border: none;
+            color: white;
+            background-color: white;
+            box-shadow: 0 0 0px 0px;
+        }
+
+        #previousLink
+        {
+            font-family: verdana;
+            color: white;
+            font-size: 15px;
+        }
+
+        h1
+        {
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 25px;
+            font-family: verdana;
+            padding: 15px 40px;
+            background: #191a1f;
+        }
+        
+        #message {
+            display: none;
+            font-family: verdana;
+            background-color: green;
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 25px;
+         }
+
+
+    </style>
+</head>
+<body>
+    <form method="POST" action="">
+
+        {% csrf_token %}
+
+    <div id="whole">
+
+        <h1>Create New Account</h1>
+        
+       <!-- <div class = "textbox">
+                <input type="text" name = "firstName" placeholder = "First name" id = "first_name">
+        </div>
+
+        <div class = "textbox">
+                <input type="text" name="lastName" placeholder = "Last name" id = "last_name">
+        </div>
+
+        <div class = "textbox">
+                <input type="text" name="email" placeholder = "Email address" id = "email">
+        </div>
+
+        <div class = "textbox">
+                <input type = "text" name="username" placeholder = "Username" id = "username">
+        </div>
+
+        <div class = "textbox">
+                    <input type = "password" name="password1" placeholder = "Password" id = "password1" onchange='active()' onkeypress="active()"
+                    onclick='active'>
+        </div>
+
+        <div class = "textbox">
+                    <input type = "password" name="password2" placeholder = "Confirm Password" id = "password2" onchange='active()' onkeypress="active()"
+                    onclick='active'>
+        </div> -->
+
+
+
+        <span>
+            <p id='message'></p>
+
+            {% for field in form %}
+            <p>
+              {{ field }}
+              {% for error in field.errors %}
+                <p style="color: white; line-height: 0%; font-size: 10px; font-family: verdana; border: 7px solid red; border-radius: 25px; margin-left: 35px; margin-right: 35px; margin-bottom: 0px;">{{ error }}</p>
+              {% endfor %}
+            </p>
+            {% endfor %}
+
+        </span>
+
+    </br>
+        <button onclick = "validate()" class = "loginBtn" id = "submitButton">Submit</button>
+
+
+        <div class = "previousPage">
+            <p id="previousLink">Have an Account? <a href = "{%url 'login'%}">Log In</a></p>
+        </div>
+
+    </div>    
+        <script>
+            document.getElementById("submitButton").onclick = 
+            function validate() 
+            {
+                const pass1 = document.getElementById("password1").value;
+                const pass2 = document.getElementById("password2").value;
+                const firstName = document.getElementById("first_name").value;
+                const lastName = document.getElementById("last_name").value;
+                const email = document.getElementById("email").value;
+                const userName = document.getElementById("username").value;
+                let permanentPassword;
+
+                if((firstName == "") || (lastName == "") || (email == "") || (phoneNum == "") || (userName == ""))
+                {
+                    alert("One or more fields is empty!");
+                }
+                else
+                {
+                    if(pass1.length < 8 ) 
+                    {
+                        alert("Password is not long enough");
+                    } 
+                    else if(pass1 != pass2) 
+                    {
+                        alert("Passwords do not match");
+                    } 
+                    else 
+                    {
+                        alert("Passwords match!");
+                        permanentPassword = pass1;
+                        window.open('HomePage.html', 'newwindow');
+                    }
+                }
+            }
+
+            function active() {
+                var p = document.getElementById('password1').value;
+                var vp = document.getElementById('password2').value;
+
+                var text = document.getElementById('message');
+                text.textContent = password_verification(p, vp);
+            }
+
+            function lengthCheck(password) {
+                var bool = false;
+                (password.length != 0 && password.length >= 8) ? (bool = true) : (bool = false);
+                return bool;
+            }
+
+            function matchCheck(password, vpassword) {
+                var bool = false;
+                (password == vpassword) ? (bool = true) : (bool = false);
+                return bool;
+            }
+
+            function password_verification(password, vpassword) {
+                let x = document.getElementById('message');
+                let length_check = lengthCheck(password) && lengthCheck(vpassword);
+                let match_check = matchCheck(password, vpassword);
+                let text = ' ';
+
+                switch (true) {
+                    case (length_check == false) && (match_check == false):
+                    x.style.backgroundColor = 'red';
+                    text = 'Passwords are invalid';
+                    break;
+                    case (length_check == false) && (match_check == true):
+                    x.style.backgroundColor = 'red';
+                    text = 'Password must be at least 8 characters long';
+                    break;
+                    case (length_check == true) && (match_check == false):
+                    x.style.backgroundColor = 'red';
+                    text = 'Passwords do not match';
+                    break;
+                    case (length_check == true) && (match_check == true):
+                    x.style.backgroundColor = 'green';
+                    text = 'Valid credentials!';
+                    break;
+                }
+
+                x.style.display = 'block';
+                x.style.textAlign = 'center';
+                return text;
+            }
+            
+        </script>
+    </form>
+</body>
