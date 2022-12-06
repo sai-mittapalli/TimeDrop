@@ -100,6 +100,23 @@
             border-radius: 25px;
          }
 
+         .previousPage{
+            height: 35px;
+            background-position: right;
+            background-color: #5467ff;
+            border-radius: 25px;
+            width: 150px;
+            padding: 10px 0px;
+            font-family: verdana;
+            color: white;
+            font-size: 13px;
+            margin-left: 100px;
+            }
+
+            #previousLink{
+                color: white;
+            } 
+
     </style>
 
 </head>
@@ -112,7 +129,7 @@
 <div id="whole">
     <h1>Add Event</h1>
     <div class="previousPage">
-      <a href="{% url 'calendar' 1 %}">Previous Page</a>
+      <a id="previousLink" href="{% url 'calendar' 1 %}">Previous Page</a>
     </div>
 
 

@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.views import generic
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
@@ -109,12 +110,13 @@ def signUpPage(request):
     # return render(request, 'base/templates/CalendarPage.html', context)'
 
 def todo(request, pk):
-    todos = Event.objects.get(id=pk)
-    context = {'todo': todo}
+    todos = Event.objects.all()
+    calendars = CalendarSave.objects.all()
+    context = {'todos': todos, 'calendars': calendars}
     return render(request, 'base/templates/todo.html', context)
 
 def calendarType(request, pk):
-    monthlyCal = CalendarView()
+    monthlyCal = CalendarView.as_view()
     todos = Event.objects.all()
     calendarTypes = CalendarSave.objects.get(id=pk)
     context = {'calendarType': calendarType, 'todos': todos, 'monthlyCal': monthlyCal}
@@ -122,6 +124,9 @@ def calendarType(request, pk):
 
 
 def addTask(request):
+    calendars = CalendarSave.objects.all()
+    context = {'calendars': calendars}
+
     if request.method == 'POST':
         form = TodoForm(request.POST)
         if form.is_valid():
@@ -146,6 +151,17 @@ def addCalendar(request):
     return render(request, 'base/templates/AddCalendar.html', {'form': form})
 
 
+def deleteTask(request, pk):
+    event = Event.objects.get(id=pk)
+    event.delete()
+    return redirect('home')
+
+def deleteCal(request, pk):
+    cal = CalendarSave.objects.get(id=pk)
+    cal.delete()
+    return redirect('home')
+
+
 
 class CalendarView(generic.ListView):
     model = Event
@@ -153,6 +169,8 @@ class CalendarView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        todos = Event.objects.all()
 
         # use today's date for the calendar
         d = get_date(self.request.GET.get('day', None))
@@ -164,9 +182,10 @@ class CalendarView(generic.ListView):
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal)
 
-        #m = get_date(self.request.GET.get('month', None))
-        #context['prev_month'] = prev_month(m)
-        #context['next_month'] = next_month(m)
+        d = get_date(self.request.GET.get('month', None))
+        context['prev_month'] = prev_month(d)
+        context['next_month'] = next_month(d)
+        context['todos'] = todos
         return context
 
 
@@ -182,9 +201,9 @@ def prev_month(d):
     month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
     return month
 
-#def next_month(d):
- #   days_in_month = calendar.monthrange(d.year, d.month)[1]
-  #  last = d.replace(day=days_in_month)
-   # next_month = last + timedelta(days=1)
-    #month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
-    #return month
+def next_month(d):
+    days_in_month = calendar.monthrange(d.year, d.month)[1]
+    last = d.replace(day=days_in_month)
+    next_month = last + timedelta(days=1)
+    month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
+    return month

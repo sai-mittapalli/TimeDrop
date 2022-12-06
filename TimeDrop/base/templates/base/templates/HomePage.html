@@ -80,28 +80,121 @@
                         transform:translate(-50%,-50%);
                     }
 
+                    #addCalendarBtn{
+                    height: 30px;
+                    border: none;
+                    outline: none;
+                    background-size: 150%;
+                    background-position: right;
+                    background-color: #5467ff;
+                    border-radius: 25px;
+                    width: 100px;
+                    margin: 5%;
+                    padding: 10px 5px;
+                    font-family: verdana;
+                    color: white;
+                    
+                    }
+
+                    button:hover {
+                    border: none;
+                    color: white;
+                    box-shadow: 0 0 0px 0px;
+                    }
+
+                    #previousLink
+                    {
+                        font-family: verdana;
+                        color: white;
+                        font-size: 10px;
+                    }
+
+
+                    #delete{
+                    height: 30px;
+                    border: none;
+                    outline: none;
+                    background-size: 150%;
+                    background-position: right;
+                    background-color: #f06969;
+                    border-radius: 25px;
+                    width: 75px;
+                    margin: 5%;
+                    padding: 10px 0px;
+                    font-family: verdana;
+                    color: white;
+                    
+                    }
+
+                    button:hover {
+                    border: none;
+                    color: white;
+                    box-shadow: 0 0 0px 0px;
+                    }
+
+                    #deleteLink
+                    {
+                        font-family: verdana;
+                        color: white;
+                        font-size: 10px;
+                    }
+
+                    #logoutBtn{
+                    height: 25px;
+                    border: none;
+                    outline: none;
+                    background-size: 150%;
+                    background-position: right;
+                    background-color: #5467ff;
+                    border-radius: 25px;
+                    width: 75px;
+                    padding: 10px 5px;
+                    font-family: verdana;
+                    color: white;
+                    font-size: 13px;
+                    
+                    }
+
+                    #calGridView{
+                        display: grid;
+                    }
+
             </style>
 
 
 
             <title>Home Page</title>
 
-            {% if request.user.is_authenticated %}
-                <a id="logoutBtn" href="{% url 'logout' %}">Logout</a>
-            {% endif %}
-
         </head>
         <body>
-            <h3>Home Page</h3>
+
+            <div id="">
+
+                {% if request.user.is_authenticated %}
+                <a id="logoutBtn" href="{% url 'logout' %}">Logout</a>
+                {% endif %}
+
+                <h3>TimeDrop</h3>
+
+            </div>
+
+
+
 
             <div id="whole">
             <a id="addCalendarBtn" href = "{% url 'addCalendar' %}">Add Calendar</a>
+            <br> <br>
 
+            <div id="calGridView">
             {% for calendar in calendars %}
-            <div class="calendarFormat">
-            <p id = "rcorners3"><a href = "{% url 'calendar' calendar.id %}">{{calendar.calendarName}}</a></p>
+            <div id = "rcorners3">
+            <a href = "{% url 'calendar' calendar.id %}">{{calendar.calendarName}}</a>
+            <br> <br> <br> <br>
+            <button id="delete"><a id="deleteLink" href="{% url 'deleteCal' calendar.id %}">Delete</a></button>
             </div>
+            <br> <br>
             {% endfor %}
+            </div>
             
             </div>
         
@@ -111,7 +204,7 @@
             <!-- <a href = "{% url 'addTask' %}">Add task</a> -->
             {% for todo in todos %}
                 <div>
-                    <h5>{{todo.id}} -- <a href="{%url 'todo' todo.id%}">{{todo.eventName}}</a> </h5>
+                    <h5>-- <a href="{%url 'todo' todo.id%}">{{todo.eventName}}</a> </h5>
                 </div>
             {% endfor %}
         </div>

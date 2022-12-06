@@ -16,4 +16,8 @@ urlpatterns = [
 
     path('addTask/', views.addTask, name="addTask"),
     path('addCalendar/', views.addCalendar, name="addCalendar"),
+
+    path('deleteTask/<str:pk>/', views.deleteTask, name="deleteTask"),
+    path('deleteCal/<str:pk>/', views.deleteCal, name="deleteCal"),
+
 ]

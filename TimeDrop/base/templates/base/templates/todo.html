@@ -1,1 +1,115 @@
-<title>hello</title>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Task</title>
+        <style>
+
+            body {
+            min-height: 150vh;
+            background: #222342;
+            }
+
+            #whole {
+            background: #191a1f;
+            text-align: center;
+            border: solid 3px #191a1f;
+            border-radius: 25px;
+            color: white;
+            width: 250px;
+            height: 300px;
+            padding: 30px 50px;
+            position: absolute;
+            font-size: 18px;
+            left:40%;
+            top:30%;
+            }
+            
+            .previousPage{
+            height: 35px;
+            border: none;
+            outline: none;
+            background-size: 150%;
+            background-position: right;
+            background-color: #5467ff;
+            border-radius: 25px;
+            width: 100px;
+            padding: 5px 5px;
+            margin: 5%;
+            padding: 10px 0px;
+            font-family: verdana;
+            color: white;
+            
+            }
+
+            button:hover {
+            border: none;
+            color: white;
+            box-shadow: 0 0 0px 0px;
+            }
+
+            #previousLink
+            {
+                font-family: verdana;
+                color: white;
+                font-size: 10px;
+            }
+
+
+            #delete{
+            height: 35px;
+            border: none;
+            outline: none;
+            background-size: 150%;
+            background-position: right;
+            background-color: #f06969;
+            border-radius: 25px;
+            width: 100px;
+            padding: 5px 5px;
+            margin: 5%;
+            padding: 10px 0px;
+            font-family: verdana;
+            color: white;
+            
+            }
+
+            button:hover {
+            border: none;
+            color: white;
+            box-shadow: 0 0 0px 0px;
+            }
+
+            #deleteLink
+            {
+                font-family: verdana;
+                color: white;
+                font-size: 10px;
+            }
+
+
+
+
+        </style>
+
+    </head>
+    <body>
+
+        {% csrf_token %}
+
+        <div id="whole">
+
+            <button class="previousPage"><a id="previousLink" href="{% url 'home' %}">Previous Page</a></button>
+
+            {% for todo in todos %}
+            <div>
+                <h5>Name: {{todo.eventName}}</h5>
+                <h5>Due Date: {{todo.dueDate}}</h5>
+                <h5>Due Time: {{todo.eventTime}}</h5>
+                <h5>Description: {{todo.eventDescription}}</h5>
+                <button id="delete"><a id="deleteLink" href="{% url 'deleteTask' todo.id %}">Delete</a></button>
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </body>
+</html>
