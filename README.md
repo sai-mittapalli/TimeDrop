@@ -5,7 +5,8 @@
 
 ## Instructions to Run Code
 1. Clone the Repository to your machine
-2. Open Terminal and navigate to the cloned repository
-3. Run the command: `source env/bin/activate`, to open access the virtual environment
-4. Run the command: `python manage.py runserver`, to obtain a functional HTTP url
-5. Copy and paste the url into any web browser to view the program
+2. Unzip the ** env.zip ** file
+3. Open Terminal and navigate to the cloned repository
+4. Run the command: `source env/bin/activate`, to open access the virtual environment
+5. Run the command: `python manage.py runserver`, to obtain a functional HTTP url
+6. Copy and paste the url into any web browser to view the program
